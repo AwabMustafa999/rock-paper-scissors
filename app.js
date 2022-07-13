@@ -8,58 +8,76 @@
        let userWins = 0;
        let computerWins = 0 ;
 
+       let userScore = document.querySelector('.user-wins') ;
+       userScore.innerHTML = `${userWins}` ;
+       
+       let computerScore = document.querySelector('.computer-wins') ;
+computerScore.innerHTML = `${computerWins}` ;
+
+
 // using the Math method to get a random choice for the computer
 function computerPlay(choices) {
-    choices = ["ROCK", "PAPER", "SCISSORS"];
-  return choices[Math.floor(Math.random()*choices.length)]; //used this math() method to get a random elemnt of the array 
+    choices = ["rock", "paper", "scissors"];
+  return choices[Math.floor(Math.random()*choices.length)];  //used this math() method to get a random element of the array 
 } 
 // making a function to play a single round, and counting the winners of each round :
 function playRound(userSelection, computerSelection) {
+    if (userWins > 4)
+    {coms.innerHTML = "GAME OVER! YOU WON" ;
+    return ;
+}
+if (computerWins > 4)
+{coms.innerHTML = "GAME OVER! YOU LOST" ;
+return ;
+}
 
-    userInput = prompt("choose your weapon: ");
-userSelection = userInput.toUpperCase()   ; //converted the string to upperCase so the prompt could be case insinsitive
+  
 computerSelection = computerPlay(choices);
 
-if (userSelection === "ROCK" && computerSelection === "SCISSORS" || userSelection === "PAPER" && computerSelection === "ROCK" || userSelection === "SCISSORS" && computerSelection === "PAPER") 
+if (userSelection === "rock" && computerSelection === "scissors" || userSelection === "paper" && computerSelection === "rock" || userSelection === "scissors" && computerSelection === "paper") 
 {
     userWins++ ;
-    console.log (`you won! you chose ${userSelection} and the computer chose ${computerSelection}.`) ;
+    userScore.innerHTML = `${userWins}`
+    coms.innerHTML = (`you win! ${userSelection} beats ${computerSelection}.`) ;
     return;
 }
-else if (userSelection === "ROCK" && computerSelection === "PAPER" || userSelection === "PAPER" && computerSelection === "SCISSORS" || userSelection === "SCISSORS" && computerSelection === "ROCK")
+else if (userSelection === "rock" && computerSelection === "paper" || userSelection === "paper" && computerSelection === "scissors" || userSelection === "scissors" && computerSelection === "rock")
 {
     computerWins++ ;
-    console.log (`you lost! you chose ${userSelection} and the computer chose ${computerSelection}.`) ;
+    computerScore.innerHTML = `${computerWins}` ;
+    coms.innerHTML = (`you lost! ${computerSelection} beats ${userSelection}.`) ;
     return;
 }
 else
 {
-    console.log (`it's a tie! you both chose ${userSelection}`) ;
+    coms.innerHTML = (`it's a tie! you both chose ${userSelection}`) ;
     return;
 }
 
 
   }
-// used this function to play 5 rounds and declare a winner
-function game(){
-    console.log("welcome to RPS!")
-    for (i = 0 ; i <= 5 ; i++){
-        playRound(userSelection, computerSelection) ;
-        console.log(`(you:${userWins} : ${computerWins} com)`)
-        
-    }
-    console.log("game over");
-    if(userWins > computerWins){
-        console.log(`YOU WON ! , you won ${userWins} out of 5 rounds .`) ;
-    }
-    else
+const rock = document.querySelector('#rock') ;
+rock.addEventListener('click' , () => {
+    playRound("rock", computerSelection) ;
+})
 
-    console.log(`YOU LOST ! , COM won ${computerWins} out of 5 rounds .`) ;
-    
-    }
-   
-
-  game();
+const paper = document.querySelector('#paper') ;
+paper.addEventListener('click' , () => {
+    playRound("paper", computerSelection) ;
+})
 
 
+const scissors = document.querySelector('#scissors') ;
+scissors.addEventListener('click' , () => {
+    playRound("scissors", computerSelection) ;
+})
 
+const coms = document.querySelector('.coms') ;
+
+
+function refresh() {
+    document.reload()
+}
+
+const playAgain = document.createElement('a')
+playAgain.addEventListener('click', refresh())
